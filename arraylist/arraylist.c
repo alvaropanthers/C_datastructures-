@@ -10,40 +10,15 @@ struct ArrayList* create_arraylist(){
 }
 
 void expand_arraylist(struct ArrayList* arraylist){
-  if(arraylist == NULL)
-    return;
+  null_check(arraylist);
   
   int newSize = arraylist->size * 2;
   arraylist->array = realloc(arraylist->array, newSize * sizeof(int));
   arraylist->size = newSize;
 }
 
-void add_front(struct ArrayList* arraylist, int value){
-  if(arraylist == NULL)
-    return;
-
-  if((arraylist->currentSize + 1) == arraylist->size){
-    expand_arraylist(arraylist);
-  }
-
-  
-  int array[arraylist->currentSize];
-  int x = 0;
-  for(x = 0; x < arraylist->currentSize; ++x){
-    array[x] = arraylist->array[x];
-  }
-
-  x = 0;
-  arraylist->array[x] = value;
-  for(x = 1; x < arraylist->currentSize + 1; ++x){
-    arraylist->array[x] = array[x - 1];
-  }
-  
-}
-
-void add_end(struct ArrayList* arraylist, int value){
-  if(arraylist == NULL)
-    return;
+void add(struct ArrayList* arraylist, int value){
+  null_check(arraylist);
 
   //Expand array if needed
   if((arraylist->currentSize + 1) == arraylist->size){
@@ -54,21 +29,97 @@ void add_end(struct ArrayList* arraylist, int value){
   ++(arraylist->currentSize);
 }
 
+void addAt(struct ArrayList *arraylist, int index, int value){
+  null_check(arraylist);
+
+  if(index >= arraylist->currentSize){
+    fprintf(stderr, "%s\n", ERR_OUT_OF_BOUNDS);    
+    exit(EXIT_FAILURE);
+  }
+
+  if((arraylist->currentSize + 1) == arraylist->size){
+    expand_arraylist(arraylist);
+  }
+
+  int tmpArr[arraylist->currentSize];
+  for(int x = 0; x < arraylist->currentSize; ++x){
+    tmpArr[x] = arraylist->array[x];
+  }
+
+  arraylist->array[index] = value;
+  for(int x = index; x < arraylist->currentSize; ++x){
+    arraylist->array[x + 1] = tmpArr[x];
+  }
+
+  ++(arraylist->currentSize);
+}
+
+int get(struct ArrayList *arraylist, int index){
+  null_check(arraylist);
+  
+  if(index >= arraylist->currentSize){
+    fprintf(stderr, "%s\n", ERR_OUT_OF_BOUNDS);    
+    exit(EXIT_FAILURE);
+  }
+
+  return arraylist->array[index];
+}
+
+int indexOf(struct ArrayList *arraylist, int value){
+  null_check(arraylist);
+
+  int index = -1;
+  for(int x = 0; x < arraylist->currentSize; ++x){
+    if(arraylist->array[x] == value){
+      index = x;
+      break;
+    }
+  }
+
+  return index;
+}
+
+void remov(struct ArrayList *arraylist, int index){
+  null_check(arraylist);
+
+  if(index >= arraylist->currentSize){
+    fprintf(stderr, "%s\n", ERR_OUT_OF_BOUNDS);    
+    exit(EXIT_FAILURE);
+  }
+
+  for(int x = index; x < arraylist->currentSize; ++x){
+    arraylist->array[x] = arraylist->array[x + 1];
+  }
+
+  --(arraylist->currentSize);
+}
+
+void remov_value(struct ArrayList *arraylist, int value){
+  null_check(arraylist);
+  
+  int index = indexOf(arraylist, value);
+  if(index != -1){
+    remov(arraylist, index);
+  }
+}
+
 void free_arraylist(struct ArrayList* arraylist){
-  if(arraylist == NULL)
-    return;
-
-  if(arraylist->array != NULL)
-    free(arraylist->array);
-
+  free(arraylist->array);
   free(arraylist);
 }
 
 void print_arraylist(struct ArrayList* arraylist){
-  if(arraylist == NULL)
-    return;
+  null_check(arraylist);
   
   for(int x = 0; x < arraylist->currentSize; ++x){
     printf("%d\n", arraylist->array[x]);
   }
 }
+
+void null_check(struct ArrayList *arraylist){
+  if(arraylist == NULL){
+    fprintf(stderr, "%s\n", ERR_ARRAYLIST_NULL);    
+    exit(EXIT_FAILURE);
+  }
+}
+
