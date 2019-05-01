@@ -17,24 +17,24 @@ int main(){
 
   
   print_arraylist(arraylist);
-  printf("size %d\n", arraylist->currentSize);
+  printf("size %ld\n", size(arraylist));
 
   printf("removing element at index %d\n", 5);
   remov(arraylist, 5);
   print_arraylist(arraylist);
-  printf("size %d\n", arraylist->currentSize);
+  printf("size %ld\n", size(arraylist));
 
   printf("appending %d\n", 455);
   add(arraylist, 455);
   print_arraylist(arraylist);
-  printf("size %d\n", arraylist->currentSize);
+  printf("size %ld\n", size(arraylist));
 
   printf("indexOf(%d) = %d\n", 14, indexOf(arraylist, 14));
 
   printf("removing %d\n", 16);
   remov_value(arraylist, 16);
   print_arraylist(arraylist);
-  printf("size %d\n", arraylist->currentSize);
+  printf("size %ld\n", size(arraylist));
 
   free_arraylist(arraylist);
   printf("All done\n");

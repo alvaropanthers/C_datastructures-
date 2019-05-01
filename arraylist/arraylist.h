@@ -8,8 +8,8 @@
 
 struct ArrayList{
   int *array;
-  int currentSize;
-  int size;
+  size_t currentSize;
+  size_t size;
 };
 
 struct ArrayList* create_arraylist();
@@ -17,9 +17,10 @@ void expand_arraylist(struct ArrayList *arraylist);
 void free_arraylist(struct ArrayList *arraylist);
 void print_arraylist(struct ArrayList *arraylist);
 void add(struct ArrayList *arraylist, int value);
-void addAt(struct ArrayList *arraylist, int index, int value);
-int get(struct ArrayList *arraylist, int index);
+void addAt(struct ArrayList *arraylist, size_t index, int value);
+int get(struct ArrayList *arraylist, size_t index);
 int indexOf(struct ArrayList *arraylist, int value);
-void remov(struct ArrayList *arraylist, int index);
+void remov(struct ArrayList *arraylist, size_t index);
 void remov_value(struct ArrayList *arraylist, int value);
 void null_check(struct ArrayList *arraylist);
+size_t size(struct ArrayList* arraylist);

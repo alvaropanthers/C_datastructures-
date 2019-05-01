@@ -29,7 +29,7 @@ void add(struct ArrayList* arraylist, int value){
   ++(arraylist->currentSize);
 }
 
-void addAt(struct ArrayList *arraylist, int index, int value){
+void addAt(struct ArrayList *arraylist, size_t index, int value){
   null_check(arraylist);
 
   if(index >= arraylist->currentSize){
@@ -42,19 +42,19 @@ void addAt(struct ArrayList *arraylist, int index, int value){
   }
 
   int tmpArr[arraylist->currentSize];
-  for(int x = 0; x < arraylist->currentSize; ++x){
+  for(size_t x = 0; x < arraylist->currentSize; ++x){
     tmpArr[x] = arraylist->array[x];
   }
 
   arraylist->array[index] = value;
-  for(int x = index; x < arraylist->currentSize; ++x){
+  for(size_t x = index; x < arraylist->currentSize; ++x){
     arraylist->array[x + 1] = tmpArr[x];
   }
 
   ++(arraylist->currentSize);
 }
 
-int get(struct ArrayList *arraylist, int index){
+int get(struct ArrayList *arraylist, size_t index){
   null_check(arraylist);
   
   if(index >= arraylist->currentSize){
@@ -79,7 +79,7 @@ int indexOf(struct ArrayList *arraylist, int value){
   return index;
 }
 
-void remov(struct ArrayList *arraylist, int index){
+void remov(struct ArrayList *arraylist, size_t index){
   null_check(arraylist);
 
   if(index >= arraylist->currentSize){
@@ -91,7 +91,9 @@ void remov(struct ArrayList *arraylist, int index){
     arraylist->array[x] = arraylist->array[x + 1];
   }
 
-  --(arraylist->currentSize);
+  if (arraylist->currentSize > 0){
+    --(arraylist->currentSize);
+  }
 }
 
 void remov_value(struct ArrayList *arraylist, int value){
@@ -116,10 +118,15 @@ void print_arraylist(struct ArrayList* arraylist){
   }
 }
 
+size_t size(struct ArrayList* arraylist){
+  null_check(arraylist);
+
+  return arraylist->currentSize;
+}
+
 void null_check(struct ArrayList *arraylist){
   if(arraylist == NULL){
     fprintf(stderr, "%s\n", ERR_ARRAYLIST_NULL);    
     exit(EXIT_FAILURE);
   }
 }
-
