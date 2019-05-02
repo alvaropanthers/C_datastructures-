@@ -1,11 +1,21 @@
 #include "arraylist.h"
 
-struct ArrayList* ArrayList_create(){
+struct ArrayList* ArrayList_create(void){
   struct ArrayList* arraylist = malloc(sizeof(struct ArrayList));
+  if(arraylist == NULL){
+    fprintf(stderr, "%s\n", ERR_OUT_OF_MEMORY);
+    return NULL;
+  }
+
   arraylist->array = malloc(MAX_SIZE * sizeof(int));
+  if(arraylist->array == NULL){
+    fprintf(stderr, "%s\n", ERR_OUT_OF_MEMORY);
+    free(arraylist);
+    return NULL;
+  }
+
   arraylist->size = MAX_SIZE;
   arraylist->currentSize = 0;
-
   return arraylist;
 }
 
@@ -13,15 +23,17 @@ void ArrayList_expand(struct ArrayList* arraylist){
   ArrayList_null_check(arraylist);
   
   int newSize = arraylist->size * 2;
-  arraylist->array = realloc(arraylist->array, newSize * sizeof(int));
-  arraylist->size = newSize;
+  if((arraylist->array = realloc(arraylist->array, newSize * sizeof(int))) == NULL){
+    fprintf(stderr, "%s\n", ERR_OUT_OF_MEMORY);
+  }else{
+    arraylist->size = newSize;
+  }
 }
 
 void ArrayList_add(struct ArrayList* arraylist, int value){
   ArrayList_null_check(arraylist);
 
-  //Expand array if needed
-  if((arraylist->currentSize + 1) == arraylist->size){
+  if(arraylist->currentSize == arraylist->size){
     ArrayList_expand(arraylist);
   }
 
@@ -37,7 +49,7 @@ void ArrayList_add_at(struct ArrayList *arraylist, size_t index, int value){
     exit(EXIT_FAILURE);
   }
 
-  if((arraylist->currentSize + 1) == arraylist->size){
+  if(arraylist->currentSize == arraylist->size){
     ArrayList_expand(arraylist);
   }
 
@@ -122,6 +134,14 @@ size_t ArrayList_size(struct ArrayList* arraylist){
   ArrayList_null_check(arraylist);
 
   return arraylist->currentSize;
+}
+
+void ArrayList_trim_to_size(struct ArrayList *arraylist){
+  ArrayList_null_check(arraylist);
+
+  if(realloc(arraylist->array, arraylist->currentSize * sizeof(int)) != NULL){
+    arraylist->size = arraylist->currentSize;
+  }
 }
 
 void ArrayList_null_check(struct ArrayList *arraylist){

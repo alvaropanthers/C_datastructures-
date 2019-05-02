@@ -14,7 +14,6 @@ int main(){
 
   printf("adding at index %d value %d\n", 3, 1000);
   ArrayList_add_at(arraylist, 3, 1000);
-
   
   ArrayList_print(arraylist);
   printf("size %ld\n", ArrayList_size(arraylist));
@@ -23,6 +22,8 @@ int main(){
   ArrayList_remov(arraylist, 5);
   ArrayList_print(arraylist);
   printf("size %ld\n", ArrayList_size(arraylist));
+
+  ArrayList_trim_to_size(arraylist);
 
   printf("appending %d\n", 455);
   ArrayList_add(arraylist, 455);
