@@ -1,6 +1,6 @@
 #include "arraylist.h"
 
-struct ArrayList* create_arraylist(){
+struct ArrayList* ArrayList_create_arraylist(){
   struct ArrayList* arraylist = malloc(sizeof(struct ArrayList));
   arraylist->array = malloc(MAX_SIZE * sizeof(int));
   arraylist->size = MAX_SIZE;
@@ -9,28 +9,28 @@ struct ArrayList* create_arraylist(){
   return arraylist;
 }
 
-void expand_arraylist(struct ArrayList* arraylist){
-  null_check(arraylist);
+void ArrayList_expand_arraylist(struct ArrayList* arraylist){
+  ArrayList_null_check(arraylist);
   
   int newSize = arraylist->size * 2;
   arraylist->array = realloc(arraylist->array, newSize * sizeof(int));
   arraylist->size = newSize;
 }
 
-void add(struct ArrayList* arraylist, int value){
-  null_check(arraylist);
+void ArrayList_add(struct ArrayList* arraylist, int value){
+  ArrayList_null_check(arraylist);
 
   //Expand array if needed
   if((arraylist->currentSize + 1) == arraylist->size){
-    expand_arraylist(arraylist);
+    ArrayList_expand_arraylist(arraylist);
   }
 
   arraylist->array[arraylist->currentSize] = value;
   ++(arraylist->currentSize);
 }
 
-void addAt(struct ArrayList *arraylist, size_t index, int value){
-  null_check(arraylist);
+void ArrayList_add_at(struct ArrayList *arraylist, size_t index, int value){
+  ArrayList_null_check(arraylist);
 
   if(index >= arraylist->currentSize){
     fprintf(stderr, "%s\n", ERR_OUT_OF_BOUNDS);    
@@ -38,7 +38,7 @@ void addAt(struct ArrayList *arraylist, size_t index, int value){
   }
 
   if((arraylist->currentSize + 1) == arraylist->size){
-    expand_arraylist(arraylist);
+    ArrayList_expand_arraylist(arraylist);
   }
 
   int tmpArr[arraylist->currentSize];
@@ -54,8 +54,8 @@ void addAt(struct ArrayList *arraylist, size_t index, int value){
   ++(arraylist->currentSize);
 }
 
-int get(struct ArrayList *arraylist, size_t index){
-  null_check(arraylist);
+int ArrayList_get(struct ArrayList *arraylist, size_t index){
+  ArrayList_null_check(arraylist);
   
   if(index >= arraylist->currentSize){
     fprintf(stderr, "%s\n", ERR_OUT_OF_BOUNDS);    
@@ -65,8 +65,8 @@ int get(struct ArrayList *arraylist, size_t index){
   return arraylist->array[index];
 }
 
-int indexOf(struct ArrayList *arraylist, int value){
-  null_check(arraylist);
+int ArrayList_index_of(struct ArrayList *arraylist, int value){
+  ArrayList_null_check(arraylist);
 
   int index = -1;
   for(int x = 0; x < arraylist->currentSize; ++x){
@@ -79,8 +79,8 @@ int indexOf(struct ArrayList *arraylist, int value){
   return index;
 }
 
-void remov(struct ArrayList *arraylist, size_t index){
-  null_check(arraylist);
+void ArrayList_remov(struct ArrayList *arraylist, size_t index){
+  ArrayList_null_check(arraylist);
 
   if(index >= arraylist->currentSize){
     fprintf(stderr, "%s\n", ERR_OUT_OF_BOUNDS);    
@@ -96,35 +96,35 @@ void remov(struct ArrayList *arraylist, size_t index){
   }
 }
 
-void remov_value(struct ArrayList *arraylist, int value){
-  null_check(arraylist);
+void ArrayList_remov_value(struct ArrayList *arraylist, int value){
+  ArrayList_null_check(arraylist);
   
-  int index = indexOf(arraylist, value);
+  int index = ArrayList_index_of(arraylist, value);
   if(index != -1){
-    remov(arraylist, index);
+    ArrayList_remov(arraylist, index);
   }
 }
 
-void free_arraylist(struct ArrayList* arraylist){
+void ArrayList_free_arraylist(struct ArrayList* arraylist){
   free(arraylist->array);
   free(arraylist);
 }
 
-void print_arraylist(struct ArrayList* arraylist){
-  null_check(arraylist);
+void ArrayList_print_arraylist(struct ArrayList* arraylist){
+  ArrayList_null_check(arraylist);
   
   for(int x = 0; x < arraylist->currentSize; ++x){
     printf("%d\n", arraylist->array[x]);
   }
 }
 
-size_t size(struct ArrayList* arraylist){
-  null_check(arraylist);
+size_t ArrayList_size(struct ArrayList* arraylist){
+  ArrayList_null_check(arraylist);
 
   return arraylist->currentSize;
 }
 
-void null_check(struct ArrayList *arraylist){
+void ArrayList_null_check(struct ArrayList *arraylist){
   if(arraylist == NULL){
     fprintf(stderr, "%s\n", ERR_ARRAYLIST_NULL);    
     exit(EXIT_FAILURE);

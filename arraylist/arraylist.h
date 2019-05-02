@@ -12,15 +12,15 @@ struct ArrayList{
   size_t size;
 };
 
-struct ArrayList* create_arraylist();
-void expand_arraylist(struct ArrayList *arraylist);
-void free_arraylist(struct ArrayList *arraylist);
-void print_arraylist(struct ArrayList *arraylist);
-void add(struct ArrayList *arraylist, int value);
-void addAt(struct ArrayList *arraylist, size_t index, int value);
-int get(struct ArrayList *arraylist, size_t index);
-int indexOf(struct ArrayList *arraylist, int value);
-void remov(struct ArrayList *arraylist, size_t index);
-void remov_value(struct ArrayList *arraylist, int value);
-void null_check(struct ArrayList *arraylist);
-size_t size(struct ArrayList* arraylist);
+struct ArrayList* ArrayList_create_arraylist();
+void ArrayList_expand_arraylist(struct ArrayList *arraylist);
+void ArrayList_free_arraylist(struct ArrayList *arraylist);
+void ArrayList_print_arraylist(struct ArrayList *arraylist);
+void ArrayList_add(struct ArrayList *arraylist, int value);
+void ArrayList_add_at(struct ArrayList *arraylist, size_t index, int value);
+int ArrayList_get(struct ArrayList *arraylist, size_t index);
+int ArrayList_index_of(struct ArrayList *arraylist, int value);
+void ArrayList_remov(struct ArrayList *arraylist, size_t index);
+void ArrayList_remov_value(struct ArrayList *arraylist, int value);
+size_t ArrayList_size(struct ArrayList* arraylist);
+void ArrayList_null_check(struct ArrayList *arraylist);
