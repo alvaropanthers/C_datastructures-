@@ -1,6 +1,6 @@
 #include "arraylist.h"
 
-struct ArrayList* ArrayList_create_arraylist(){
+struct ArrayList* ArrayList_create(){
   struct ArrayList* arraylist = malloc(sizeof(struct ArrayList));
   arraylist->array = malloc(MAX_SIZE * sizeof(int));
   arraylist->size = MAX_SIZE;
@@ -9,7 +9,7 @@ struct ArrayList* ArrayList_create_arraylist(){
   return arraylist;
 }
 
-void ArrayList_expand_arraylist(struct ArrayList* arraylist){
+void ArrayList_expand(struct ArrayList* arraylist){
   ArrayList_null_check(arraylist);
   
   int newSize = arraylist->size * 2;
@@ -22,7 +22,7 @@ void ArrayList_add(struct ArrayList* arraylist, int value){
 
   //Expand array if needed
   if((arraylist->currentSize + 1) == arraylist->size){
-    ArrayList_expand_arraylist(arraylist);
+    ArrayList_expand(arraylist);
   }
 
   arraylist->array[arraylist->currentSize] = value;
@@ -38,7 +38,7 @@ void ArrayList_add_at(struct ArrayList *arraylist, size_t index, int value){
   }
 
   if((arraylist->currentSize + 1) == arraylist->size){
-    ArrayList_expand_arraylist(arraylist);
+    ArrayList_expand(arraylist);
   }
 
   int tmpArr[arraylist->currentSize];
@@ -105,12 +105,12 @@ void ArrayList_remov_value(struct ArrayList *arraylist, int value){
   }
 }
 
-void ArrayList_free_arraylist(struct ArrayList* arraylist){
+void ArrayList_destroy(struct ArrayList* arraylist){
   free(arraylist->array);
   free(arraylist);
 }
 
-void ArrayList_print_arraylist(struct ArrayList* arraylist){
+void ArrayList_print(struct ArrayList* arraylist){
   ArrayList_null_check(arraylist);
   
   for(int x = 0; x < arraylist->currentSize; ++x){
