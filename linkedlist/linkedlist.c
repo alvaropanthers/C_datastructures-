@@ -1,7 +1,7 @@
 #include "linkedlist.h"
 
 LinkedList *LinkedList_create(void){
-  LinkedList* linkedList = malloc(sizeof(LinkedList));
+  LinkedList *linkedList = malloc(sizeof(LinkedList));
   linkedList->head = NULL;
   linkedList->node = NULL;
 
@@ -16,7 +16,7 @@ Node *LinkedList_create_node(int value){
   return newNode;  
 }
 
-void LinkedList_insert_head(LinkedList* linkedList, int value){
+void LinkedList_insert_head(LinkedList *linkedList, int value){
   if(linkedList == NULL){
     return;
   }
@@ -32,7 +32,7 @@ void LinkedList_insert_head(LinkedList* linkedList, int value){
 
 }
 
-void LinkedList_add_node(LinkedList* linkedList, int value){
+void LinkedList_add_node(LinkedList *linkedList, int value){
   if(linkedList == NULL){
     return;
   }
@@ -48,7 +48,7 @@ void LinkedList_add_node(LinkedList* linkedList, int value){
   }
 }
 
-Node *LinkedList_get_node(LinkedList* linkedList, int value){
+Node *LinkedList_get_node(LinkedList *linkedList, int value){
   if(linkedList == NULL){
     return NULL;
   }
@@ -65,7 +65,7 @@ Node *LinkedList_get_node(LinkedList* linkedList, int value){
   return NULL;
 }
 
-void LinkedList_destroy(LinkedList* linkedList){
+void LinkedList_destroy(LinkedList *linkedList){
   if(linkedList == NULL){
     return;
   }
@@ -74,7 +74,7 @@ void LinkedList_destroy(LinkedList* linkedList){
   free(linkedList);
 }
 
-void LinkedList_destroy_head(LinkedList* linkedList){
+void LinkedList_destroy_head(LinkedList *linkedList){
   if(linkedList == NULL){
     return;
   }
@@ -92,7 +92,7 @@ void LinkedList_destroy_head(LinkedList* linkedList){
 
 }
 
-void LinkedList_destroy_end(LinkedList* linkedList){
+void LinkedList_destroy_end(LinkedList *linkedList){
   if(linkedList == NULL){
     return;
   }
@@ -118,7 +118,7 @@ void LinkedList_destroy_end(LinkedList* linkedList){
   }
 }
 
-void LinkedList_free_nodes(LinkedList* linkedList){
+void LinkedList_free_nodes(LinkedList *linkedList){
   if(linkedList == NULL){
     return;
   }
@@ -137,14 +137,14 @@ void LinkedList_free_nodes(LinkedList* linkedList){
   linkedList->node = NULL;
 }
 
-void LinkedList_free_node(Node* node){
+void LinkedList_free_node(Node *node){
   if(node == NULL){
     return;
   }
   free(node);
 }
 
-void LinkedList_print(LinkedList* linkedList){
+void LinkedList_print(LinkedList *linkedList){
   if(linkedList == NULL){
     return;
   }
