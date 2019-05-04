@@ -1,6 +1,6 @@
 #include "linkedlist.h"
 
-LinkedList* LinkedList_create(void){
+LinkedList *LinkedList_create(void){
   LinkedList* linkedList = malloc(sizeof(LinkedList));
   linkedList->head = NULL;
   linkedList->node = NULL;
@@ -8,8 +8,8 @@ LinkedList* LinkedList_create(void){
   return linkedList;
 }
 
-Node* LinkedList_create_node(int value){
-  Node* newNode = malloc(sizeof(Node));
+Node *LinkedList_create_node(int value){
+  Node *newNode = malloc(sizeof(Node));
   newNode->value = value;
   newNode->nextNode = NULL;
 
@@ -21,7 +21,7 @@ void LinkedList_insert_head(LinkedList* linkedList, int value){
     return;
   }
 
-  Node* newNode = LinkedList_create_node(value);
+  Node *newNode = LinkedList_create_node(value);
 
   if(linkedList->head == NULL){
     linkedList->head = newNode;
@@ -37,7 +37,7 @@ void LinkedList_add_node(LinkedList* linkedList, int value){
     return;
   }
 
-  Node* newNode = LinkedList_create_node(value);
+  Node *newNode = LinkedList_create_node(value);
 
   if(linkedList->head == NULL){
     linkedList->node = newNode;
@@ -80,7 +80,7 @@ void LinkedList_destroy_head(LinkedList* linkedList){
   }
 
   if(linkedList->head != NULL){
-    Node* tmp = linkedList->head;
+    Node *tmp = linkedList->head;
     if(tmp->nextNode != NULL){
       linkedList->head = tmp->nextNode;
     }else{
@@ -123,10 +123,10 @@ void LinkedList_free_nodes(LinkedList* linkedList){
     return;
   }
 
-  Node* currentNode;
+  Node *currentNode;
   currentNode = linkedList->head;
 
-  Node* tmp;
+  Node *tmp;
   while(currentNode != NULL){
     tmp = currentNode;
     currentNode = currentNode->nextNode;
@@ -149,7 +149,7 @@ void LinkedList_print(LinkedList* linkedList){
     return;
   }
 
-  Node* currentNode = linkedList->head;
+  Node *currentNode = linkedList->head;
   while(currentNode != NULL){
     printf("%d\n", currentNode->value);
     currentNode = currentNode->nextNode;
