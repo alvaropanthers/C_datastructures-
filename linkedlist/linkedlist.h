@@ -1,23 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node{
+typedef struct Node{
   int value;
-  struct Node* nextNode;
-};
+  struct Node *nextNode;
+} Node;
 
-struct LinkedList{
-  struct Node* head;
-  struct Node* node;
-};
+typedef struct LinkedList{
+  Node *head;
+  Node *node;
+} LinkedList;
 
-struct LinkedList* createLinkedList();
-void freeLinkedList(struct LinkedList* linkedList);
-void addNode(struct LinkedList* linkedList, int value);
-void printLinkedList(struct LinkedList* linkedList);
-void freeNodes(struct LinkedList* linkedList);
-void deleteTop(struct LinkedList* linkedList);
-void freeNode(struct Node* node);
-void insertHead(struct LinkedList* linkedList, int value);
-struct Node* createNode(int value);
-void deleteEnd(struct LinkedList* linkedList);
+LinkedList* LinkedList_create(void);
+Node* LinkedList_create_node(int value);
+void LinkedList_add_node(LinkedList* linkedList, int value);
+void LinkedList_insert_head(LinkedList* linkedList, int value);
+void LinkedList_destroy_head(LinkedList* linkedList);
+void LinkedList_free_nodes(LinkedList* linkedList);
+void LinkedList_free_node(Node* node);
+void LinkedList_destroy(LinkedList* linkedList);
+void LinkedList_destroy_end(LinkedList* linkedList);
+void LinkedList_print(LinkedList* linkedList);
+Node *LinkedList_get_node(LinkedList* linkedList, int value);

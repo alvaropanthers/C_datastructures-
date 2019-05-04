@@ -1,48 +1,43 @@
 #include "linkedlist.h"
 
-struct LinkedList* createLinkedList(){
-  struct LinkedList* linkedList = malloc(sizeof(struct LinkedList));
+LinkedList* LinkedList_create(void){
+  LinkedList* linkedList = malloc(sizeof(LinkedList));
   linkedList->head = NULL;
   linkedList->node = NULL;
+
   return linkedList;
 }
 
-void freeLinkedList(struct LinkedList* linkedList){
-  if(linkedList == NULL)
-    return;
-
-  freeNodes(linkedList);
-  free(linkedList);
-}
-
-void freeNodes(struct LinkedList* linkedList){
-  if(linkedList == NULL)
-    return;
-
-  struct Node* currentNode;
-  currentNode = linkedList->head;
-
-  struct Node* tmp;
-  while(currentNode != NULL){
-    tmp = currentNode;
-    currentNode = currentNode->nextNode;
-    freeNode(tmp);
-  }
-
-}
-
-struct Node* createNode(int value){
-  struct Node* newNode = malloc(sizeof(struct Node));
+Node* LinkedList_create_node(int value){
+  Node* newNode = malloc(sizeof(Node));
   newNode->value = value;
+  newNode->nextNode = NULL;
 
   return newNode;  
 }
 
-void addNode(struct LinkedList* linkedList, int value){
-  if(linkedList == NULL)
+void LinkedList_insert_head(LinkedList* linkedList, int value){
+  if(linkedList == NULL){
     return;
+  }
 
-  struct Node* newNode = createNode(value);
+  Node* newNode = LinkedList_create_node(value);
+
+  if(linkedList->head == NULL){
+    linkedList->head = newNode;
+  }else{
+    newNode->nextNode = linkedList->head;
+    linkedList->head = newNode;
+  }
+
+}
+
+void LinkedList_add_node(LinkedList* linkedList, int value){
+  if(linkedList == NULL){
+    return;
+  }
+
+  Node* newNode = LinkedList_create_node(value);
 
   if(linkedList->head == NULL){
     linkedList->node = newNode;
@@ -53,78 +48,108 @@ void addNode(struct LinkedList* linkedList, int value){
   }
 }
 
-void insertHead(struct LinkedList* linkedList, int value){
-  if(linkedList == NULL)
-    return;
-
-  struct Node* newNode = createNode(value);
-
-  if(linkedList->head == NULL){
-    linkedList->head = newNode;
-  }else{
-    newNode->nextNode = linkedList->head;
-    linkedList->head = newNode;
-
+Node *LinkedList_get_node(LinkedList* linkedList, int value){
+  if(linkedList == NULL){
+    return NULL;
   }
 
+  Node *currentNode = linkedList->head;
+  do{
+    if(currentNode->value == value){
+      return currentNode;
+    }
+
+    currentNode = currentNode->nextNode;
+  }while(currentNode != NULL);
+
+  return NULL;
 }
 
-void freeNode(struct Node* node){
-  if(node == NULL)
+void LinkedList_destroy(LinkedList* linkedList){
+  if(linkedList == NULL){
     return;
-  printf("freing node with value of %d\n", node->value);
-  free(node);
+  }
+
+  LinkedList_free_nodes(linkedList);
+  free(linkedList);
 }
 
-void deleteTop(struct LinkedList* linkedList){
-  if(linkedList == NULL)
+void LinkedList_destroy_head(LinkedList* linkedList){
+  if(linkedList == NULL){
     return;
+  }
 
   if(linkedList->head != NULL){
-    struct Node* tmp = linkedList->head;
+    Node* tmp = linkedList->head;
     if(tmp->nextNode != NULL){
       linkedList->head = tmp->nextNode;
     }else{
       linkedList->head = NULL;
     }
 
-    freeNode(tmp);
+    LinkedList_free_node(tmp);
   }
 
 }
 
-void deleteEnd(struct LinkedList* linkedList){
-  if(linkedList == NULL)
+void LinkedList_destroy_end(LinkedList* linkedList){
+  if(linkedList == NULL){
     return;
+  }
 
-  struct Node* currentNode = linkedList->head;
-  if(currentNode->nextNode == NULL){
-    linkedList->head = NULL;
-    freeNode(currentNode);
-  }else{
-    struct Node* tmp;
+  Node *currentNode =  linkedList->head;
+  Node *prevNode = NULL;
+  if(currentNode != NULL){
     while(currentNode->nextNode != NULL){
-      tmp = currentNode;
+      prevNode = currentNode;
       currentNode = currentNode->nextNode;
     }
 
-    if(tmp != NULL){
-      freeNode(tmp->nextNode);
-      tmp->nextNode = NULL;
-      linkedList->node = tmp;
+    if(prevNode != NULL){
+      prevNode->nextNode = NULL;
+      linkedList->node = prevNode;
+      LinkedList_free_node(currentNode);
+    }else if(prevNode == NULL){
+      linkedList->node = NULL;
+      linkedList->head = NULL;
+      LinkedList_free_node(currentNode);
     }
-      
-  }
 
+  }
 }
 
-void printLinkedList(struct LinkedList* linkedList){
-  if(linkedList == NULL)
+void LinkedList_free_nodes(LinkedList* linkedList){
+  if(linkedList == NULL){
     return;
+  }
 
-  struct Node* currentNode;
+  Node* currentNode;
   currentNode = linkedList->head;
 
+  Node* tmp;
+  while(currentNode != NULL){
+    tmp = currentNode;
+    currentNode = currentNode->nextNode;
+    LinkedList_free_node(tmp);
+  }
+
+  linkedList->head = NULL;
+  linkedList->node = NULL;
+}
+
+void LinkedList_free_node(Node* node){
+  if(node == NULL){
+    return;
+  }
+  free(node);
+}
+
+void LinkedList_print(LinkedList* linkedList){
+  if(linkedList == NULL){
+    return;
+  }
+
+  Node* currentNode = linkedList->head;
   while(currentNode != NULL){
     printf("%d\n", currentNode->value);
     currentNode = currentNode->nextNode;
