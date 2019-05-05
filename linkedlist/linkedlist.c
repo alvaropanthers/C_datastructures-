@@ -8,15 +8,15 @@ LinkedList *LinkedList_create(void){
   return linkedList;
 }
 
-Node *LinkedList_create_node(int value){
+Node *LinkedList_create_node(void *value){
   Node *newNode = malloc(sizeof(Node));
-  newNode->value = value;
+  newNode->value_ptr = value;
   newNode->nextNode = NULL;
 
   return newNode;  
 }
 
-void LinkedList_insert_head(LinkedList *linkedList, int value){
+void LinkedList_insert_head(LinkedList *linkedList, void *value){
   if(linkedList == NULL){
     return;
   }
@@ -32,7 +32,7 @@ void LinkedList_insert_head(LinkedList *linkedList, int value){
 
 }
 
-void LinkedList_add_node(LinkedList *linkedList, int value){
+void LinkedList_add_node(LinkedList *linkedList, void *value){
   if(linkedList == NULL){
     return;
   }
@@ -48,20 +48,19 @@ void LinkedList_add_node(LinkedList *linkedList, int value){
   }
 }
 
-Node *LinkedList_get_node(LinkedList *linkedList, int value){
+Node *LinkedList_get_node(LinkedList *linkedList, int compare(void *, void *), void *value){
   if(linkedList == NULL){
     return NULL;
   }
 
   Node *currentNode = linkedList->head;
   do{
-    if(currentNode->value == value){
+    if(compare(value, currentNode->value_ptr)){
       return currentNode;
     }
-
     currentNode = currentNode->nextNode;
   }while(currentNode != NULL);
-
+  
   return NULL;
 }
 
@@ -151,7 +150,7 @@ void LinkedList_print(LinkedList *linkedList){
 
   Node *currentNode = linkedList->head;
   while(currentNode != NULL){
-    printf("%d\n", currentNode->value);
+    printf("%d\n", *((int*)currentNode->value_ptr));
     currentNode = currentNode->nextNode;
   }
 
