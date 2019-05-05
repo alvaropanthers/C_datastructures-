@@ -3,6 +3,12 @@
 
 #define MAX_SIZE 5
 
+/**
+ * 
+ * Circular Queue
+ * 
+**/
+
 typedef struct Queue{
   void **array;
   int currentSize;

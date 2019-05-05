@@ -28,7 +28,7 @@ void Queue_enqueue(Queue *queue, void *value){
 }
 
 void *Queue_dequeue(Queue *queue){
-  if(queue == NULL){
+  if(queue == NULL || queue->currentSize == 0){
     return NULL;
   }
 
