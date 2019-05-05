@@ -3,15 +3,17 @@
 
 #define MAX_SIZE 5
 
-struct Queue{
-  int* array;
+typedef struct Queue{
+  void **array;
   int currentSize;
   int size;
-};
+  int front;
+  int rear;
+} Queue;
 
-struct Queue* create_queue();
-void free_queue(struct Queue*);
-void expand_queue(struct Queue*);
-void enqueue(struct Queue*, int);
-int dequeue(struct Queue*);
-void print_queue(struct Queue* queue);
+Queue *Queue_create_queue();
+void Queue_free_queue(Queue *queue);
+void Queue_expand_queue(Queue *queue);
+void Queue_enqueue(Queue *queue, void *value);
+void *Queue_dequeue(Queue *queue);
+void Queue_print_queue(Queue *queue, void print(void*, int));

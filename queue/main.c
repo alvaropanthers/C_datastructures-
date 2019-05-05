@@ -1,17 +1,28 @@
 #include <stdio.h>
 #include "queue.h"
 
+void custom_print(void *value, int index){
+  printf("value %d index %d\n", *((int*)value), index);
+}
+
 int main(){
-  struct Queue* queue = create_queue();
-  enqueue(queue, 11);
-  enqueue(queue, 12);
+  Queue *queue = Queue_create_queue(5);
 
-  print_queue(queue);
+  int int1 = 11;
+  void *ptr = &int1;
+  Queue_enqueue(queue, ptr);
 
-  dequeue(queue);
+  int int2 = 50;
+  ptr = &int2;
+  Queue_enqueue(queue, ptr);
 
-  print_queue(queue);
-  
-  free_queue(queue);
-  printf("Everything is done\n");
+  printf("print\n");
+  Queue_print_queue(queue, custom_print);
+
+  Queue_dequeue(queue);
+
+  printf("print\n");
+  Queue_print_queue(queue, custom_print);
+
+  Queue_free_queue(queue);
 }

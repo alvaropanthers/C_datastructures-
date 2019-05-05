@@ -1,74 +1,72 @@
 #include "queue.h"
 
-struct Queue* create_queue(){
-  struct Queue* queue = malloc(sizeof(struct Queue));
-  queue->array = malloc(MAX_SIZE * sizeof(int));
-  queue->size = MAX_SIZE;
+Queue *Queue_create_queue(int size){
+  Queue *queue = malloc(sizeof(Queue));
+  queue->array = malloc(size * sizeof(void*));
+  queue->size = size;
   queue->currentSize = 0;
+  queue->front = 0;
+  queue->rear = 0;
+
   return queue;
 }
 
-void free_queue(struct Queue* queue){
-  if(queue == NULL)
+void Queue_enqueue(Queue *queue, void *value){
+  if(queue == NULL){
     return;
+  }
 
-  if(queue->array != NULL)
+  if((queue->rear == queue->size) && (queue->currentSize < queue->size)){
+    queue->rear = 0;
+  }
+
+  if(queue->currentSize != queue->size){
+    queue->array[queue->rear] = value;
+    ++(queue->rear);
+    ++(queue->currentSize);
+  }
+}
+
+void *Queue_dequeue(Queue *queue){
+  if(queue == NULL){
+    return NULL;
+  }
+
+  void *firstIn = queue->array[queue->front];
+  queue->array[queue->front] = NULL;
+
+  if((queue->front + 1) == queue->size){
+    queue->front = 0;
+  }else{
+    ++(queue->front);
+  }
+
+  --(queue->currentSize);
+ 
+  return firstIn;
+}
+
+void Queue_free_queue(Queue *queue){
+  if(queue == NULL){
+    return;
+  }
+
+  if(queue->array != NULL){
     free(queue->array);
+  }
 
   free(queue);
 }
 
-
-void expand_queue(struct Queue* queue){
-  if(queue == NULL)
+void Queue_print_queue(Queue *queue, void print(void*, int)){
+  if(queue == NULL){
     return;
+  }
 
-  int newSize = queue->size * 2;
-  queue->array = realloc(queue->array, newSize * sizeof(int));
-  queue->size = newSize;
+  for(int x = 0; x < queue->size; ++x){
+    if(queue->array[x] != NULL){
+      print(queue->array[x], x);
+    }
+  }
 
-}
-
-void enqueue(struct Queue* queue, int value){
-  if(queue == NULL)
-    return;
-
-  if((queue->currentSize + 1) == queue->size)
-    expand_queue(queue);
-
-  int array[queue->currentSize];
-  int x = 0;
-  //Create copy
-  for(x = 0; x < queue->currentSize; ++x)
-    array[x] = queue->array[x];
-
-  x = 0;
-  queue->array[x] = value;
-  for(x = 1; x < queue->currentSize + 1; ++x)
-    queue->array[x] = array[x - 1];
-
-  ++(queue->currentSize);
-}
-
-int dequeue(struct Queue* queue){
-  if(queue == NULL)
-    return -1;
-
-  int last = queue->array[queue->currentSize - 1];
-  queue->array[queue->currentSize - 1] = -1;
-  --(queue->currentSize);
-
-  return last;
-}
-
-
-void print_queue(struct Queue* queue){
-  if(queue == NULL)
-    return;
-
-  for(int x = 0; x < queue->currentSize; ++x)
-    printf("%d\n", queue->array[x]);
-  
-
-  
 }
