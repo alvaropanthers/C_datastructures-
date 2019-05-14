@@ -6,15 +6,14 @@
 #define STACK_DOUBLE 2
 #define STACK_FLOAT 3
 
-int* stack;
-int lastPos;
-int stack_type;
+typedef struct Stack{
+    void **stack;
+    size_t currentSize;
+    size_t size;
+} Stack;
 
-void initStack();
-void stack_push(void* element);
-void stack_pop();
-int stack_size();
-int stack_isEmpty();
-int stack_isFull();
-void* stack_peak();
-void* stack_top();
+Stack *Stack_init();
+void Stack_free(Stack *stack);
+void Stack_push(Stack *stack, void *element);
+void *Stack_pop(Stack *stack);
+int Stack_is_full(Stack *stack);

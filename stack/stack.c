@@ -1,76 +1,55 @@
 #include "stack.h"
 
-void initStack(int type){
-  lastPos = 0;
+Stack *Stack_init(){
+  Stack *stack = malloc(sizeof(Stack));
+  stack->stack = malloc(SIZE_OF_STACK * sizeof(void*));
+  stack->size = SIZE_OF_STACK;
+  stack->currentSize = 0;
 
-  size_t d_size;
-
-  if(type == STACK_CHAR){
-    d_size = sizeof(char);
-    stack_type = STACK_CHAR;
-  }
-  else if(type == STACK_INT){
-    d_size = sizeof(int);
-    stack_type = STACK_INT;
-  }
-  else if(type == STACK_DOUBLE){
-    d_size = sizeof(double);
-    stack_type = STACK_DOUBLE;
-  }
-  else if(type == STACK_FLOAT){
-    d_size = sizeof(float);
-    stack_type = STACK_FLOAT;
-  }
-    
-  stack = malloc(SIZE_OF_STACK * d_size);
+  return stack;
 }
 
-void stack_push(void* element){
-  if(stack_isFull())
+void Stack_free(Stack *stack){
+  if(stack == NULL){
     return;
+  }
 
-  if(stack_type == STACK_CHAR)
-    stack[lastPos] = *((char*)element);
-  else if(stack_type == STACK_INT)
-    stack[lastPos] = *((int*)element);
-  else if(stack_type == STACK_DOUBLE)
-    stack[lastPos] = *((double*)element);
-  else if(stack_type == STACK_FLOAT)
-    stack[lastPos] = *((float*)element);
-
-  ++lastPos;
+  free(stack->stack);
+  free(stack);
 }
 
-void stack_pop(){
-  --lastPos;
-  stack[lastPos] = '\0';
+void Stack_push(Stack *stack, void *element){
+  if(stack == NULL){
+    return;
+  }
+
+  if(Stack_is_full(stack) == 0){
+    stack->stack[stack->currentSize] = element;
+    ++(stack->currentSize);
+  }
+
 }
 
-int stack_size(){
-  return lastPos;
+void *Stack_pop(Stack *stack){
+  if(stack == NULL || stack->currentSize == 0){
+    return NULL;
+  }
+
+  void *element = stack->stack[stack->currentSize - 1];
+  stack->stack[stack->currentSize - 1] = NULL;
+  --(stack->currentSize);
+
+  return element;
 }
 
-int stack_isEmpty(){
-  if(lastPos == 0)
+int Stack_is_full(Stack *stack){
+  if(stack == NULL){
     return 1;
+  }
+
+  if(stack->currentSize == stack->size){
+    return 1;
+  }
 
   return 0;
-}
-
-int stack_isFull(){
-  if((lastPos + 1) == SIZE_OF_STACK)
-    return 1;
-
-  return 0;
-}
-
-void* stack_peak(){
-  if(stack[0] == '\0')
-    return '\0';
-
-  return &stack[0];
-}
-
-void* stack_top(){
-  return &stack[lastPos - 1];
 }
