@@ -98,7 +98,7 @@ void DoublyLinkedList_print_integer(DoubleLinkedList *doubleLinkedList){
     return;
   }
 
-  Node* currentNode = doubleLinkedList->head;
+  Node *currentNode = doubleLinkedList->head;
   while(currentNode != NULL){
     printf("Node value: %d ", *((int*)currentNode->value_ptr));
     if(currentNode->prevNode != NULL){

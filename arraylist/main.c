@@ -40,5 +40,8 @@ int main(){
   ArrayList_destroy(arraylist);
   printf("All done\n");
 
+
+  printf("sizeof(void) = %lu\n", sizeof(void));
+
   return 0;
 }
